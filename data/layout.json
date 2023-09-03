@@ -1,0 +1,21 @@
+{
+  "_SCREEN_WIDTH_": 1920,
+  "_SCREEN_HEIGHT_": 1080,
+
+  "_LEFT_GAP_": 20,
+  "_TOP_GAP_": 20,
+  "_WIDGET_SPACING_": 30,
+
+  "FPS_LABEL": ["_LEFT_GAP_", "_TOP_GAP_"],
+  "EXIT_BUTTON": ["_LEFT_GAP_", "_TOP_GAP_ + _WIDGET_SPACING_ * 2"]
+}
+
+
+
+
+
+
+
+
+
+

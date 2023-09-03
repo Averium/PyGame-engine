@@ -2,7 +2,7 @@ from typing import Callable
 
 import pygame
 
-from source.tools import Singleton
+from engine.tools import Singleton
 
 
 class Timer:

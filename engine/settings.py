@@ -1,7 +1,7 @@
 from os import getcwd
 from os.path import join
 
-from source.file import JsonFile, DynamicJsonFile
+from engine.file import JsonFile, DynamicJsonFile, IniFile
 
 # resolution fix ---------------------------------------------------------------------
 from ctypes import windll
@@ -20,7 +20,7 @@ class PATH:
     KEYBIND = join(DATA, "keybind")
 
 
-SETTINGS = JsonFile(PATH.SETTINGS)
+SETTINGS = IniFile(PATH.SETTINGS, read_only=False)
 LAYOUT = DynamicJsonFile(PATH.LAYOUT)
 KEYS = JsonFile(PATH.KEYBIND)
 COLORS = DynamicJsonFile(PATH.COLORS)

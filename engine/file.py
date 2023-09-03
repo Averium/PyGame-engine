@@ -1,18 +1,15 @@
 import json
-from abc import ABC, abstractmethod
-from os.path import basename
-from typing import Tuple, Union, Any, Optional
+from configparser import ConfigParser
 
-import mat4py
-from numpy import array as matrix
-from openpyxl import load_workbook, Workbook
+from abc import ABC, abstractmethod
+from typing import Any
 
 
 class File(ABC):
-    EXTENSION = ""
+    _EXTENSION = ""
 
     def __init__(self, path: str = None, read_only: bool = True):
-        self._file = None if path is None else f"{path}.{self.EXTENSION}"
+        self._file = None if path is None else f"{path}.{self._EXTENSION}"
         self._data = {}
         self._read_only = read_only
         self.load()
@@ -46,7 +43,7 @@ class File(ABC):
 
 
 class JsonFile(File):
-    EXTENSION = "json"
+    _EXTENSION = "json"
 
     def _load(self):
         with open(self._file, "r") as FILE:
@@ -57,9 +54,10 @@ class JsonFile(File):
                     setattr(self, key, value)
 
     def _save(self):
+        for key in self._data:
+            self._data[key] = getattr(self, key)
+
         with open(self._file, "w") as FILE:
-            for key in self._data:
-                self._data[key] = getattr(self, key)
             json.dump(self._data, FILE, indent=2, sort_keys=False)
 
     @property
@@ -96,46 +94,32 @@ class DynamicJsonFile(JsonFile):
             return data
 
 
-class MatFile(File):
-    EXTENSION = "mat"
-    Y_AXIS = "Y"
-    X_AXIS = "X"
-    NAME_FIELD = "Name"
-    DATA_FIELD = "Data"
+class IniFile(File):
+    _EXTENSION = "ini"
+    _FLOATING_POINT_CHARACTER = '.'
 
-    def __init__(self, path: str):
-        self._main_field = basename(path)
-        super().__init__(path, True)
+    def __init__(self, path: str = None, read_only: bool = True):
+        self._config = ConfigParser()
+        self._config.optionxform = str
 
-    def __str__(self) -> str:
-        return "\n".join(name for name in self._data[self._main_field]["Y"]["Name"])
+        super().__init__(path, read_only)
 
-    def _load(self):
-        self._data = mat4py.loadmat(self._file)
-        names = self._data[self._main_field][MatFile.Y_AXIS][MatFile.NAME_FIELD]
-        arrays = self._data[self._main_field][MatFile.Y_AXIS][MatFile.DATA_FIELD]
-        for name, array in zip(names, arrays):
-            name = name.replace(".", "_")
-            name = name.replace("[", "_")
-            name = name.replace("]", "_")
-            name = name.replace("][", "_")
-            setattr(self, name, matrix(array))
+    def _load(self) -> None:
+        self._config.read(self._file)
+        self._data = {section: self._config[section] for section in self._config.sections()}
 
-    def _save(self): pass
+        for section in self._data.values():
+            for name, value in section.items():
+                if value.replace(IniFile._FLOATING_POINT_CHARACTER, '').isnumeric():
+                    value = float(value) if '.' in value else int(value)
+                elif value.lower() in ("true", "false"):
+                    value = value == "true"
+                setattr(self, name.upper(), value)
 
+    def _save(self) -> None:
+        for section_name, section in self._data.items():
+            for name in section.keys():
+                self._config.set(section_name, name, str(getattr(self, name.upper())))
 
-class ExcelFile(File):
-    EXTENSION = "xlsx"
-
-    def __init__(self, filename: str):
-        self._data: Optional[Workbook] = None
-        super().__init__(filename, True)
-
-    def __getitem__(self, sheet_cells: Tuple[str, str]) -> Union[int, float, str]:
-        sheet, cells = sheet_cells
-        return self._data[sheet][cells]
-
-    def _load(self):
-        self._data = load_workbook(self._file, read_only=self._read_only)
-
-    def _save(self): pass
+        with open(self._file, "w") as FILE:
+            self._config.write(FILE)

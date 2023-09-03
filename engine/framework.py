@@ -1,11 +1,11 @@
 import pygame
 from typing import Optional
 
-from source.settings import COLORS, LAYOUT, KEYS, SETTINGS
-from source.timing import Clock, Timer
-from source.events import EventHandler
-from source.tools import Singleton, Align, Filter
-from source.gui import Gui, Button, DataLabel, WidgetGroup
+from engine.settings import COLORS, LAYOUT, KEYS, SETTINGS
+from engine.timing import Clock
+from engine.events import EventHandler
+from engine.tools import Singleton, Align, Filter
+from engine.gui import Gui, Button, DataLabel, WidgetGroup, FloatingWindow
 
 
 class Framework(metaclass=Singleton):
@@ -26,18 +26,23 @@ class Framework(metaclass=Singleton):
         self.gui: Gui = Gui()
 
         self.exit_button: Optional[Button] = None
+        self.debug_button: Optional[Button] = None
         self.fps_label: Optional[DataLabel] = None
+        self.debug_window: Optional[FloatingWindow] = None
 
         self.init_gui()
 
     def init_gui(self):
-        main_group = WidgetGroup(self.gui, active=True, layer=1)
+        main_group = WidgetGroup(self.gui, active=True, layer=2)
+
+        self.debug_window = FloatingWindow(self.gui, LAYOUT.DEBUG_WINDOW, COLORS.WINDOW, "Debug", layer=1)
 
         settings = dict(text_size=20, align=Align.TL)
         self.fps_label = DataLabel(main_group, LAYOUT.FPS_LABEL, COLORS.GREY_LABEL, "FPS", **settings)
 
         settings = dict(text_size=32, align=Align.TL)
         self.exit_button = Button(main_group, LAYOUT.EXIT_BUTTON, COLORS.RED_BUTTON, "Close", **settings)
+        self.debug_button = Button(main_group, LAYOUT.DEBUG_BUTTON, COLORS.GREY_BUTTON, "Debug", **settings)
 
     def start(self):
         if not self.running:
@@ -54,6 +59,8 @@ class Framework(metaclass=Singleton):
             self.exit()
 
         self.gui.events(self.event_handler)
+        if self.debug_button.pressed:
+            self.gui.activate_group(self.debug_window)
 
     def logic(self):
         self.fps_label.value = self.fps
@@ -71,7 +78,7 @@ class Framework(metaclass=Singleton):
             self.logic()
             self.render()
 
-    def _debug_text(self, data=""):
+    def debug_text(self, data=""):
         surface = Gui.FONT[False][20].render(str(data), False, COLORS.GREY7)
         rect = surface.get_rect()
         rect.topleft = (5, 5)

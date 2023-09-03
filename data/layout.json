@@ -4,10 +4,13 @@
 
   "_LEFT_GAP_": 20,
   "_TOP_GAP_": 20,
-  "_WIDGET_SPACING_": 30,
+  "_WIDGET_SPACING_": 40,
 
   "FPS_LABEL": ["_LEFT_GAP_", "_TOP_GAP_"],
-  "EXIT_BUTTON": ["_LEFT_GAP_", "_TOP_GAP_ + _WIDGET_SPACING_ * 2"]
+  "DEBUG_BUTTON": ["_LEFT_GAP_", "_TOP_GAP_ + _WIDGET_SPACING_"],
+  "EXIT_BUTTON": ["_LEFT_GAP_", "_TOP_GAP_ + _WIDGET_SPACING_ * 2"],
+
+  "DEBUG_WINDOW": [100, 100, 600, 300]
 }
 
 

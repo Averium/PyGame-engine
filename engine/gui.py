@@ -1,19 +1,45 @@
 from abc import ABC, abstractmethod
 from enum import Enum
 from math import floor
-from typing import Union, Tuple, List, Optional
+from typing import Optional, Union, Tuple, List, Iterator
 
 import pygame
-from pygame.math import Vector2 as Vector
 
-from source.settings import COLORS
-from source.events import EventHandler
-from source.tools import Align
-from source.tools import Singleton, Hashable
-
+from engine.events import EventHandler
+from engine.settings import COLORS
+from engine.tools import Align
+from engine.tools import Singleton, Hashable
+from engine.tools import Vector
 
 RectangleArrayType = Union[Tuple, List]
 CoordinateArrayType = Union[Vector, Tuple, List]
+
+
+class WidgetSettingsIterator:
+
+    def __init__(self, *args, **kwargs):
+        self._index: int = 0
+        longest = max([*kwargs.values(), args], key=lambda value: len(value) if hasattr(value, "__iter__") else 0)
+        self._length = len(longest)
+
+        self._args = tuple(arg if self.iterable(arg) else (arg,) * self._length for arg in args)
+        self._kwargs = {name: kw if self.iterable(kw) else (kw,) * self._length for name, kw in kwargs.items()}
+
+    def __iter__(self) -> Iterator:
+        self._index = -1
+        return self
+
+    def __next__(self) -> Tuple[tuple, dict]:
+        self._index += 1
+        if self._index >= self._length:
+            raise StopIteration
+        args = tuple(value[self._index] for value in self._args)
+        kwargs = {key: value[self._index] for key, value in self._kwargs.items()}
+        return *args, kwargs
+
+    @staticmethod
+    def iterable(obj):
+        return hasattr(obj, "__iter__")
 
 
 class Gui(metaclass=Singleton):

@@ -1,11 +1,11 @@
 from typing import Union
 
 import pygame
-from pygame.math import Vector2 as Vector
+from engine.tools import Vector
 
-from source.file import JsonFile
-from source.timing import Clock
-from source.tools import Singleton
+from engine.file import JsonFile
+from engine.timing import Clock
+from engine.tools import Singleton
 
 
 class Key:

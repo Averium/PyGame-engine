@@ -1,5 +1,15 @@
 
+from abc import ABCMeta
+from ctypes import windll
+
 from pygame.math import Vector2 as Vector
+
+
+class Window:
+    # resolution fix ---------------------------------------------------------------------
+    windll.user32.SetProcessDPIAware()
+    WIDTH, HEIGHT = (windll.user32.GetSystemMetrics(0), windll.user32.GetSystemMetrics(1))
+    # ------------------------------------------------------------------------------------
 
 
 class Direction:
@@ -21,7 +31,7 @@ class Align:
     C: str = "center"
 
 
-class Singleton(type):
+class Singleton(ABCMeta):
     """
     Enhances a class, preventing the creation of multiple instances
     If an instance already exists upon class call, it returns that instance instead of creating a new one.

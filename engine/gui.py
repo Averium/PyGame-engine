@@ -6,7 +6,7 @@ from typing import Optional, Union, Tuple, List, Iterator
 import pygame
 
 from engine.events import EventHandler
-from engine.settings import COLORS
+from game.settings import COLORS
 from engine.tools import Align
 from engine.tools import Singleton, Hashable
 from engine.tools import Vector
@@ -293,10 +293,12 @@ class DataLabel(TextLabel):
             color: Tuple,
             text: str,
             value: float = 0.0,
+            decimals: int = 2,
             **kwargs,
     ):
         super().__init__(group, pos, color, f"{text}: ", **kwargs)
         self._value = value
+        self._decimals = decimals
 
     def render(self, display: pygame.Surface):
         w1, h1 = self.font.size(self.text)
@@ -314,7 +316,7 @@ class DataLabel(TextLabel):
     @value.setter
     def value(self, new_value: Union[float, int, str]):
         new_value = float(new_value) if isinstance(new_value, str) else new_value
-        self._value = round(float(new_value), 2)
+        self._value = round(float(new_value), self._decimals)
 
 
 class Button(TextLabel):

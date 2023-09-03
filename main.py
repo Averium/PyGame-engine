@@ -1,6 +1,5 @@
 import pygame
-
-from engine import Framework
+from game import Framework
 
 
 def main():

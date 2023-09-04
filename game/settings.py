@@ -12,11 +12,13 @@ class PATH:
     COLORS = join(DATA, "colors")
     SETTINGS = join(DATA, "settings")
     KEYBIND = join(DATA, "keybind")
+    PHYSICS = join(DATA, "physics")
 
 
 SETTINGS = IniFile(PATH.SETTINGS, read_only=False)
-LAYOUT = DynamicJsonFile(PATH.LAYOUT)
+PHYSICS = JsonFile(PATH.PHYSICS)
 KEYS = JsonFile(PATH.KEYBIND)
+LAYOUT = DynamicJsonFile(PATH.LAYOUT)
 COLORS = DynamicJsonFile(PATH.COLORS)
 
 LAYOUT.WIDTH = Window.WIDTH

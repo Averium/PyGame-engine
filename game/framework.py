@@ -12,7 +12,7 @@ from game.settings import COLORS, LAYOUT, KEYS, SETTINGS
 class Framework(Engine):
 
     def __init__(self):
-        super().__init__(SETTINGS.FPS)
+        super().__init__(SETTINGS.FPS, pygame.FULLSCREEN | pygame.SCALED)
 
         self.event_handler = EventHandler(self.clock, KEYS)
 

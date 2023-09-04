@@ -1,10 +1,18 @@
-This project is an extension for pygame to support hobby game development.
+# **PyGame engine extension**
+#### This project is an extension for pygame to support hobby game development.
 
-- GUI library
+### Additions
+
+- Animation support
 - State machine support
 - File handling support
-    - Json files
-    - INI files
+- UI support
+
+
+- Sprite extension
 - Timing extension
-- Event handler extension
 - Audio extension
+- Event handling extension
+
+
+- Game development toolbox

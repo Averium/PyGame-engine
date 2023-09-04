@@ -6,7 +6,6 @@ from typing import Optional, Union, Tuple, List, Iterator
 import pygame
 
 from engine.events import EventHandler
-from game.settings import COLORS
 from engine.tools import Align
 from engine.tools import Singleton, Hashable
 from engine.tools import Vector
@@ -696,7 +695,7 @@ class Dropdown(Switch):
         if self.active:
             x, y, w, h = self
             tw, _ = self.font.size(self.text)
-            pygame.draw.rect(display, COLORS.SCREEN, (x + tw, y, w - tw, h))
+            pygame.draw.rect(display, self.color[0], (x + tw, y, w - tw, h))
 
         for index, item in enumerate(self._order):
             glow = index == self._hovered_index and self.active or not self.active and self.hovered

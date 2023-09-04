@@ -13,9 +13,13 @@ class CollisionRect(pygame.Rect):
             self.center = pos
             self.ground_counter = 0
 
-    def collide_x(self, collision_list):
-        self.centerx = self.owner.x
+    def collide_x(self, collision_list: tuple = None):
+        self.centerx = self.owner.pos.x
         collided = [False, False]
+
+        if collision_list is None:
+            return collided
+
         for body in collision_list:
             if self.colliderect(body.body):
                 if self.owner.vel.x > 0:
@@ -28,9 +32,13 @@ class CollisionRect(pygame.Rect):
                 self.owner.pos.x = body.centerx
         return collided
 
-    def collide_y(self, collision_list):
+    def collide_y(self, collision_list: tuple = None):
         self.centery = self.owner.pos.y
         collided = [False, False]
+
+        if collision_list is None:
+            return collided
+
         for body in collision_list:
             if self.colliderect(body.body):
                 if self.owner.vel.y > 0:
@@ -65,7 +73,7 @@ class KinematicBody(StaticBody):
         self.ground_counter = 0
         self.collided = [False, False, False, False]
 
-    def move(self, collision_list, dt):
+    def move(self, dt: float, collision_list: tuple = None):
 
         self.pos.x += self.vel.x * dt                            # x = ∫vx dt
         self.collided[:2] = self.body.collide_x(collision_list)  # solving collisions in the x direction
@@ -83,32 +91,32 @@ class DynamicBody(KinematicBody):
             vel: CoordinateArrayType = Vector(0, 0),
             mass: float = 1.0,
             gravity: float = 0.0,
-            drag: float = 0.0,
+            friction: float = 0.0,
     ):
         super().__init__(dim, pos, vel)
         self.mass = mass
         self.g = gravity
-        self.drag = drag
-        self.resultant = Vector(0, 0)
+        self.friction = friction
+        self.test = Vector(0, 0)
 
     def gravity(self) -> Vector:
         return Vector(0, self.g) * self.mass
 
-    def friction(self) -> Vector:
-        return self.vel * self.drag
+    def damping(self) -> Vector:
+        return -self.vel * self.friction
 
     def net_force(self):
-        return self.gravity() - self.friction()
+        return self.gravity() + self.damping() + self.test
 
-    def move(self, collision_list, dt):
+    def move(self, dt: float, collision_list: tuple = None):
 
         self.acc = self.net_force() / self.mass                  # a = F / m
         self.collided = [False, False, False, False]
 
         self.vel.x += self.acc.x * dt                            # vx = ∫ax dt
-        self.pos.x = round(self.pos.x + self.vel.x * dt)         # x = ∫vx dt
+        self.pos.x = self.pos.x + self.vel.x * dt                # x = ∫vx dt
         self.collided[:2] = self.body.collide_x(collision_list)  # solving collisions in the x direction
 
         self.vel.y += self.acc.y * dt                            # vy = ∫ay dt
-        self.pos.y = round(self.pos.y + self.vel.y * dt)         # y = ∫vy dt
+        self.pos.y = self.pos.y + self.vel.y * dt                # y = ∫vy dt
         self.collided[2:] = self.body.collide_y(collision_list)  # solving collisions in the y direction

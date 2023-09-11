@@ -50,11 +50,15 @@ class Gui(metaclass=Singleton):
         True: {size: pygame.font.SysFont("monospace", size, bold=True) for size in FONT_SIZES},
     }
 
-    def __init__(self):
+    def __init__(self, text_size: int = 20):
+        self._text_size = text_size
         self._all_groups = set()
         self._active_groups = set()
         self._focused = set()
-        self.debug = 0
+
+    @property
+    def text_size(self):
+        return min(Gui.FONT_SIZES, key=lambda element: abs(element - self._text_size))
 
     def add_group(self, *groups: "WidgetGroup"):
         self._all_groups.update(groups)
@@ -232,7 +236,7 @@ class TextLabel(Widget):
             pos: CoordinateArrayType,
             color: Tuple,
             text: str,
-            text_size: int = 24,
+            text_size: int = None,
             bold: bool = True,
             anchor: CoordinateArrayType = None,
             align: str = Align.TL,
@@ -242,7 +246,7 @@ class TextLabel(Widget):
         super().__init__(group, (*pos, 0, 0), anchor, align, layer, **kwargs)
         self.align = align
         self.color = color
-        self.text_size = text_size
+        self.text_size = self._gui.text_size if text_size is None else text_size
         self.bold = bold
         self.text = None
 

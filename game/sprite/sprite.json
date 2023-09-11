@@ -1,0 +1,961 @@
+{
+  "frames": {
+    "machinegun_stand_1": [0, 0, 16, 16],
+    "machinegun_stand_2": [16, 0, 16, 16],
+    "machinegun_stand_3": [32, 0, 16, 16],
+    "machinegun_stand_recoil": [48, 0, 16, 16],
+    "machinegun_run_1": [0, 16, 16, 16],
+    "machinegun_run_2": [16, 16, 16, 16],
+    "machinegun_run_1_shoot": [32, 16, 16, 16],
+    "machinegun_run_2_shoot": [48, 16, 16, 16],
+    "machinegun_run_1_recoil": [0, 32, 16, 16],
+    "machinegun_run_2_recoil": [16, 32, 16, 16],
+    "machinegun_stop": [32, 32, 16, 16],
+    "machinegun_stop_recoil": [48, 32, 16, 16],
+    "machinegun_jump_charge": [0, 48, 16, 16],
+    "machinegun_jump_1": [16, 48, 16, 16],
+    "machinegun_jump_1_recoil": [32, 48, 16, 16],
+    "machinegun_jump_2": [48, 48, 16, 16],
+    "machinegun_jump_2_shoot": [0, 64, 16, 16],
+    "machinegun_jump_2_recoil": [16, 64, 16, 16],
+    "machinegun_fall_1": [32, 64, 16, 16],
+    "machinegun_fall_2": [48, 64, 16, 16],
+    "machinegun_fall_1_shoot": [0, 80, 16, 16],
+    "machinegun_fall_1_recoil": [16, 80, 16, 16],
+    "machinegun_fall_2_shoot": [32, 80, 16, 16],
+    "machinegun_fall_2_recoil": [48, 80, 16, 16],
+    
+    "shotgun_stand_1": [0, 96, 16, 16],
+    "shotgun_stand_2": [16, 96, 16, 16],
+    "shotgun_stand_3": [32, 96, 16, 16],
+    "shotgun_stand_recoil": [48, 96, 16, 16],
+    "shotgun_run_1": [0, 112, 16, 16],
+    "shotgun_run_2": [16, 112, 16, 16],
+    "shotgun_run_1_shoot": [32, 112, 16, 16],
+    "shotgun_run_2_shoot": [48, 112, 16, 16],
+    "shotgun_run_1_recoil": [0, 128, 16, 16],
+    "shotgun_run_2_recoil": [16, 128, 16, 16],
+    "shotgun_stop": [32, 128, 16, 16],
+    "shotgun_stop_recoil": [48, 128, 16, 16],
+    "shotgun_jump_charge": [0, 144, 16, 16],
+    "shotgun_jump_1": [16, 144, 16, 16],
+    "shotgun_jump_1_recoil": [32, 144, 16, 16],
+    "shotgun_jump_2": [48, 144, 16, 16],
+    "shotgun_jump_2_shoot": [0, 160, 16, 16],
+    "shotgun_jump_2_recoil": [16, 160, 16, 16],
+    "shotgun_fall_1": [32, 160, 16, 16],
+    "shotgun_fall_2": [48, 160, 16, 16],
+    "shotgun_fall_1_shoot": [0, 176, 16, 16],
+    "shotgun_fall_1_recoil": [16, 176, 16, 16],
+    "shotgun_fall_2_shoot": [32, 176, 16, 16],
+    "shotgun_fall_2_recoil": [48, 176, 16, 16],
+    
+    "handgun_stand_1": [0, 192, 16, 16],
+    "handgun_stand_2": [16, 192, 16, 16],
+    "handgun_stand_3": [32, 192, 16, 16],
+    "handgun_stand_recoil": [48, 192, 16, 16],
+    "handgun_run_1": [0, 208, 16, 16],
+    "handgun_run_2": [16, 208, 16, 16],
+    "handgun_run_1_shoot": [32, 208, 16, 16],
+    "handgun_run_2_shoot": [48, 208, 16, 16],
+    "handgun_run_1_recoil": [0, 224, 16, 16],
+    "handgun_run_2_recoil": [16, 224, 16, 16],
+    "handgun_stop": [32, 224, 16, 16],
+    "handgun_stop_recoil": [48, 224, 16, 16],
+    "handgun_jump_charge": [0, 240, 16, 16],
+    "handgun_jump_1": [16, 240, 16, 16],
+    "handgun_jump_1_recoil": [32, 240, 16, 16],
+    "handgun_jump_2": [48, 240, 16, 16],
+    "handgun_jump_2_shoot": [0, 256, 16, 16],
+    "handgun_jump_2_recoil": [16, 256, 16, 16],
+    "handgun_fall_1": [32, 256, 16, 16],
+    "handgun_fall_2": [48, 256, 16, 16],
+    "handgun_fall_1_shoot": [0, 272, 16, 16],
+    "handgun_fall_1_recoil": [16, 272, 16, 16],
+    "handgun_fall_2_shoot": [32, 272, 16, 16],
+    "handgun_fall_2_recoil": [48, 272, 16, 16],
+    
+    "flamethrower_stand_1": [0, 288, 16, 16],
+    "flamethrower_stand_2": [16, 288, 16, 16],
+    "flamethrower_stand_3": [32, 288, 16, 16],
+    "flamethrower_stand_recoil": [48, 288, 16, 16],
+    "flamethrower_run_1": [0, 304, 16, 16],
+    "flamethrower_run_2": [16, 304, 16, 16],
+    "flamethrower_run_1_shoot": [32, 304, 16, 16],
+    "flamethrower_run_2_shoot": [48, 304, 16, 16],
+    "flamethrower_run_1_recoil": [0, 320, 16, 16],
+    "flamethrower_run_2_recoil": [16, 320, 16, 16],
+    "flamethrower_stop": [32, 320, 16, 16],
+    "flamethrower_stop_recoil": [48, 320, 16, 16],
+    "flamethrower_jump_charge": [0, 336, 16, 16],
+    "flamethrower_jump_1": [16, 336, 16, 16],
+    "flamethrower_jump_1_recoil": [32, 336, 16, 16],
+    "flamethrower_jump_2": [48, 336, 16, 16],
+    "flamethrower_jump_2_shoot": [0, 352, 16, 16],
+    "flamethrower_jump_2_recoil": [16, 352, 16, 16],
+    "flamethrower_fall_1": [32, 352, 16, 16],
+    "flamethrower_fall_2": [48, 352, 16, 16],
+    "flamethrower_fall_1_shoot": [0, 368, 16, 16],
+    "flamethrower_fall_1_recoil": [16, 368, 16, 16],
+    "flamethrower_fall_2_shoot": [32, 368, 16, 16],
+    "flamethrower_fall_2_recoil": [48, 368, 16, 16]
+  },
+
+  "animations": {
+    "machinegun": {
+      "stand_r": [
+        {
+          "frame": {
+            "normal": "machinegun_stand_1",
+            "shoot": "machinegun_stand_2",
+            "recoil": "machinegun_stand_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "machinegun_stand_2",
+            "shoot": "machinegun_stand_2",
+            "recoil": "machinegun_stand_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "machinegun_stand_3",
+            "shoot": "machinegun_stand_2",
+            "recoil": "machinegun_stand_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "stand_l": [
+        {
+          "frame": {
+            "normal": "machinegun_stand_1",
+            "shoot": "machinegun_stand_2",
+            "recoil": "machinegun_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "machinegun_stand_2",
+            "shoot": "machinegun_stand_2",
+            "recoil": "machinegun_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "machinegun_stand_3",
+            "shoot": "machinegun_stand_2",
+            "recoil": "machinegun_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ],
+      "run_r": [
+        {
+          "frame": {
+            "normal": "machinegun_run_1",
+            "shoot": "machinegun_run_1_shoot",
+            "recoil": "machinegun_run_1_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "machinegun_run_2",
+            "shoot": "machinegun_run_2_shoot",
+            "recoil": "machinegun_run_2_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "run_l": [
+        {
+          "frame": {
+            "normal": "machinegun_run_1",
+            "shoot": "machinegun_run_1_shoot",
+            "recoil": "machinegun_run_1_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "machinegun_run_2",
+            "shoot": "machinegun_run_2_shoot",
+            "recoil": "machinegun_run_2_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ],
+      "stop_r": [
+        {
+          "frame": {
+            "normal": "machinegun_stop",
+            "shoot": "machinegun_stop",
+            "recoil": "machinegun_stop_recoil"
+          },
+          "duration": null
+        }
+      ],
+      "stop_l": [
+        {
+          "frame": {
+            "normal": "machinegun_stop",
+            "shoot": "machinegun_stop",
+            "recoil": "machinegun_stop_recoil"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "jump_charge_r": [
+        {
+          "frame": {
+            "normal": "machinegun_jump_charge",
+            "shoot": "machinegun_jump_charge",
+            "recoil": "machinegun_jump_charge"
+          },
+          "duration": null
+        }
+      ],
+      "jump_charge_l": [
+        {
+          "frame": {
+            "normal": "machinegun_jump_charge",
+            "shoot": "machinegun_jump_charge",
+            "recoil": "machinegun_jump_charge"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "jump_r": [
+        {
+          "frame": {
+            "normal": "machinegun_jump_2",
+            "shoot": "machinegun_jump_2_shoot",
+            "recoil": "machinegun_jump_2_recoil"
+          },
+          "duration": 100
+        },
+        {
+          "frame": {
+            "normal": "machinegun_jump_2",
+            "shoot": "machinegun_jump_2_shoot",
+            "recoil": "machinegun_jump_2_recoil"
+          },
+          "duration": null
+        }
+      ],
+      "jump_l": [
+        {
+          "frame": {
+            "normal": "machinegun_jump_2",
+            "shoot": "machinegun_jump_2_shoot",
+            "recoil": "machinegun_jump_2_recoil"
+          },
+          "duration": 100,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "machinegun_jump_2",
+            "shoot": "machinegun_jump_2_shoot",
+            "recoil": "machinegun_jump_2_recoil"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "fall_r": [
+        {
+          "frame": {
+            "normal": "machinegun_fall_1",
+            "shoot": "machinegun_fall_1_shoot",
+            "recoil": "machinegun_fall_1_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "machinegun_fall_2",
+            "shoot": "machinegun_fall_2_shoot",
+            "recoil": "machinegun_fall_2_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "fall_l": [
+        {
+          "frame": {
+            "normal": "machinegun_fall_1",
+            "shoot": "machinegun_fall_1_shoot",
+            "recoil": "machinegun_fall_1_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "machinegun_fall_2",
+            "shoot": "machinegun_fall_2_shoot",
+            "recoil": "machinegun_fall_2_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ]
+    },
+
+    "handgun": {
+      "stand_r": [
+        {
+          "frame": {
+            "normal": "handgun_stand_1",
+            "shoot": "handgun_stand_2",
+            "recoil": "handgun_stand_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "handgun_stand_2",
+            "shoot": "handgun_stand_2",
+            "recoil": "handgun_stand_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "handgun_stand_3",
+            "shoot": "handgun_stand_2",
+            "recoil": "handgun_stand_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "stand_l": [
+        {
+          "frame": {
+            "normal": "handgun_stand_1",
+            "shoot": "handgun_stand_2",
+            "recoil": "handgun_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "handgun_stand_2",
+            "shoot": "handgun_stand_2",
+            "recoil": "handgun_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "handgun_stand_3",
+            "shoot": "handgun_stand_2",
+            "recoil": "handgun_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ],
+      "run_r": [
+        {
+          "frame": {
+            "normal": "handgun_run_1",
+            "shoot": "handgun_run_1_shoot",
+            "recoil": "handgun_run_1_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "handgun_run_2",
+            "shoot": "handgun_run_2_shoot",
+            "recoil": "handgun_run_2_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "run_l": [
+        {
+          "frame": {
+            "normal": "handgun_run_1",
+            "shoot": "handgun_run_1_shoot",
+            "recoil": "handgun_run_1_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "handgun_run_2",
+            "shoot": "handgun_run_2_shoot",
+            "recoil": "handgun_run_2_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ],
+      "stop_r": [
+        {
+          "frame": {
+            "normal": "handgun_stop",
+            "shoot": "handgun_stop",
+            "recoil": "handgun_stop_recoil"
+          },
+          "duration": null
+        }
+      ],
+      "stop_l": [
+        {
+          "frame": {
+            "normal": "handgun_stop",
+            "shoot": "handgun_stop",
+            "recoil": "handgun_stop_recoil"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "jump_charge_r": [
+        {
+          "frame": {
+            "normal": "handgun_jump_charge",
+            "shoot": "handgun_jump_charge",
+            "recoil": "handgun_jump_charge"
+          },
+          "duration": null
+        }
+      ],
+      "jump_charge_l": [
+        {
+          "frame": {
+            "normal": "handgun_jump_charge",
+            "shoot": "handgun_jump_charge",
+            "recoil": "handgun_jump_charge"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "jump_r": [
+        {
+          "frame": {
+            "normal": "handgun_jump_2",
+            "shoot": "handgun_jump_2_shoot",
+            "recoil": "handgun_jump_2_recoil"
+          },
+          "duration": 100
+        },
+        {
+          "frame": {
+            "normal": "handgun_jump_2",
+            "shoot": "handgun_jump_2_shoot",
+            "recoil": "handgun_jump_2_recoil"
+          },
+          "duration": null
+        }
+      ],
+      "jump_l": [
+        {
+          "frame": {
+            "normal": "handgun_jump_2",
+            "shoot": "handgun_jump_2_shoot",
+            "recoil": "handgun_jump_2_recoil"
+          },
+          "duration": 100,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "handgun_jump_2",
+            "shoot": "handgun_jump_2_shoot",
+            "recoil": "handgun_jump_2_recoil"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "fall_r": [
+        {
+          "frame": {
+            "normal": "handgun_fall_1",
+            "shoot": "handgun_fall_1_shoot",
+            "recoil": "handgun_fall_1_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "handgun_fall_2",
+            "shoot": "handgun_fall_2_shoot",
+            "recoil": "handgun_fall_2_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "fall_l": [
+        {
+          "frame": {
+            "normal": "handgun_fall_1",
+            "shoot": "handgun_fall_1_shoot",
+            "recoil": "handgun_fall_1_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "handgun_fall_2",
+            "shoot": "handgun_fall_2_shoot",
+            "recoil": "handgun_fall_2_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ]
+    },
+
+    "shotgun": {
+      "stand_r": [
+        {
+          "frame": {
+            "normal": "shotgun_stand_1",
+            "shoot": "shotgun_stand_2",
+            "recoil": "shotgun_stand_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "shotgun_stand_2",
+            "shoot": "shotgun_stand_2",
+            "recoil": "shotgun_stand_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "shotgun_stand_3",
+            "shoot": "shotgun_stand_2",
+            "recoil": "shotgun_stand_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "stand_l": [
+        {
+          "frame": {
+            "normal": "shotgun_stand_1",
+            "shoot": "shotgun_stand_2",
+            "recoil": "shotgun_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "shotgun_stand_2",
+            "shoot": "shotgun_stand_2",
+            "recoil": "shotgun_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "shotgun_stand_3",
+            "shoot": "shotgun_stand_2",
+            "recoil": "shotgun_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ],
+      "run_r": [
+        {
+          "frame": {
+            "normal": "shotgun_run_1",
+            "shoot": "shotgun_run_1_shoot",
+            "recoil": "shotgun_run_1_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "shotgun_run_2",
+            "shoot": "shotgun_run_2_shoot",
+            "recoil": "shotgun_run_2_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "run_l": [
+        {
+          "frame": {
+            "normal": "shotgun_run_1",
+            "shoot": "shotgun_run_1_shoot",
+            "recoil": "shotgun_run_1_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "shotgun_run_2",
+            "shoot": "shotgun_run_2_shoot",
+            "recoil": "shotgun_run_2_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ],
+      "stop_r": [
+        {
+          "frame": {
+            "normal": "shotgun_stop",
+            "shoot": "shotgun_stop",
+            "recoil": "shotgun_stop_recoil"
+          },
+          "duration": null
+        }
+      ],
+      "stop_l": [
+        {
+          "frame": {
+            "normal": "shotgun_stop",
+            "shoot": "shotgun_stop",
+            "recoil": "shotgun_stop_recoil"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "jump_charge_r": [
+        {
+          "frame": {
+            "normal": "shotgun_jump_charge",
+            "shoot": "shotgun_jump_charge",
+            "recoil": "shotgun_jump_charge"
+          },
+          "duration": null
+        }
+      ],
+      "jump_charge_l": [
+        {
+          "frame": {
+            "normal": "shotgun_jump_charge",
+            "shoot": "shotgun_jump_charge",
+            "recoil": "shotgun_jump_charge"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "jump_r": [
+        {
+          "frame": {
+            "normal": "shotgun_jump_2",
+            "shoot": "shotgun_jump_2_shoot",
+            "recoil": "shotgun_jump_2_recoil"
+          },
+          "duration": 100
+        },
+        {
+          "frame": {
+            "normal": "shotgun_jump_2",
+            "shoot": "shotgun_jump_2_shoot",
+            "recoil": "shotgun_jump_2_recoil"
+          },
+          "duration": null
+        }
+      ],
+      "jump_l": [
+        {
+          "frame": {
+            "normal": "shotgun_jump_2",
+            "shoot": "shotgun_jump_2_shoot",
+            "recoil": "shotgun_jump_2_recoil"
+          },
+          "duration": 100,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "shotgun_jump_2",
+            "shoot": "shotgun_jump_2_shoot",
+            "recoil": "shotgun_jump_2_recoil"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "fall_r": [
+        {
+          "frame": {
+            "normal": "shotgun_fall_1",
+            "shoot": "shotgun_fall_1_shoot",
+            "recoil": "shotgun_fall_1_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "shotgun_fall_2",
+            "shoot": "shotgun_fall_2_shoot",
+            "recoil": "shotgun_fall_2_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "fall_l": [
+        {
+          "frame": {
+            "normal": "shotgun_fall_1",
+            "shoot": "shotgun_fall_1_shoot",
+            "recoil": "shotgun_fall_1_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "shotgun_fall_2",
+            "shoot": "shotgun_fall_2_shoot",
+            "recoil": "shotgun_fall_2_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ]
+    },
+    
+    "flamethrower": {
+      "stand_r": [
+        {
+          "frame": {
+            "normal": "flamethrower_stand_1",
+            "shoot": "flamethrower_stand_2",
+            "recoil": "flamethrower_stand_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "flamethrower_stand_2",
+            "shoot": "flamethrower_stand_2",
+            "recoil": "flamethrower_stand_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "flamethrower_stand_3",
+            "shoot": "flamethrower_stand_2",
+            "recoil": "flamethrower_stand_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "stand_l": [
+        {
+          "frame": {
+            "normal": "flamethrower_stand_1",
+            "shoot": "flamethrower_stand_2",
+            "recoil": "flamethrower_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "flamethrower_stand_2",
+            "shoot": "flamethrower_stand_2",
+            "recoil": "flamethrower_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "flamethrower_stand_3",
+            "shoot": "flamethrower_stand_2",
+            "recoil": "flamethrower_stand_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ],
+      "run_r": [
+        {
+          "frame": {
+            "normal": "flamethrower_run_1",
+            "shoot": "flamethrower_run_1_shoot",
+            "recoil": "flamethrower_run_1_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "flamethrower_run_2",
+            "shoot": "flamethrower_run_2_shoot",
+            "recoil": "flamethrower_run_2_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "run_l": [
+        {
+          "frame": {
+            "normal": "flamethrower_run_1",
+            "shoot": "flamethrower_run_1_shoot",
+            "recoil": "flamethrower_run_1_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "flamethrower_run_2",
+            "shoot": "flamethrower_run_2_shoot",
+            "recoil": "flamethrower_run_2_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ],
+      "stop_r": [
+        {
+          "frame": {
+            "normal": "flamethrower_stop",
+            "shoot": "flamethrower_stop",
+            "recoil": "flamethrower_stop_recoil"
+          },
+          "duration": null
+        }
+      ],
+      "stop_l": [
+        {
+          "frame": {
+            "normal": "flamethrower_stop",
+            "shoot": "flamethrower_stop",
+            "recoil": "flamethrower_stop_recoil"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "jump_charge_r": [
+        {
+          "frame": {
+            "normal": "flamethrower_jump_charge",
+            "shoot": "flamethrower_jump_charge",
+            "recoil": "flamethrower_jump_charge"
+          },
+          "duration": null
+        }
+      ],
+      "jump_charge_l": [
+        {
+          "frame": {
+            "normal": "flamethrower_jump_charge",
+            "shoot": "flamethrower_jump_charge",
+            "recoil": "flamethrower_jump_charge"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "jump_r": [
+        {
+          "frame": {
+            "normal": "flamethrower_jump_2",
+            "shoot": "flamethrower_jump_2_shoot",
+            "recoil": "flamethrower_jump_2_recoil"
+          },
+          "duration": 100
+        },
+        {
+          "frame": {
+            "normal": "flamethrower_jump_2",
+            "shoot": "flamethrower_jump_2_shoot",
+            "recoil": "flamethrower_jump_2_recoil"
+          },
+          "duration": null
+        }
+      ],
+      "jump_l": [
+        {
+          "frame": {
+            "normal": "flamethrower_jump_2",
+            "shoot": "flamethrower_jump_2_shoot",
+            "recoil": "flamethrower_jump_2_recoil"
+          },
+          "duration": 100,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "flamethrower_jump_2",
+            "shoot": "flamethrower_jump_2_shoot",
+            "recoil": "flamethrower_jump_2_recoil"
+          },
+          "duration": null,
+          "mirrored": true
+        }
+      ],
+      "fall_r": [
+        {
+          "frame": {
+            "normal": "flamethrower_fall_1",
+            "shoot": "flamethrower_fall_1_shoot",
+            "recoil": "flamethrower_fall_1_recoil"
+          },
+          "duration": 150
+        },
+        {
+          "frame": {
+            "normal": "flamethrower_fall_2",
+            "shoot": "flamethrower_fall_2_shoot",
+            "recoil": "flamethrower_fall_2_recoil"
+          },
+          "duration": 150
+        }
+      ],
+      "fall_l": [
+        {
+          "frame": {
+            "normal": "flamethrower_fall_1",
+            "shoot": "flamethrower_fall_1_shoot",
+            "recoil": "flamethrower_fall_1_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        },
+        {
+          "frame": {
+            "normal": "flamethrower_fall_2",
+            "shoot": "flamethrower_fall_2_shoot",
+            "recoil": "flamethrower_fall_2_recoil"
+          },
+          "duration": 150,
+          "mirrored": true
+        }
+      ]
+    }
+  }
+}

@@ -8,9 +8,9 @@ from engine.tools import Window, Singleton
 
 class Engine(ABC, metaclass=Singleton):
 
-    def __init__(self, fps, display_flags=pygame.FULLSCREEN):
+    def __init__(self, fps, scale: int = 1, display_flags: int = pygame.FULLSCREEN):
 
-        self.display = pygame.display.set_mode((Window.WIDTH, Window.HEIGHT), display_flags, vsync=1)
+        self.display = pygame.display.set_mode((Window.WIDTH // scale, Window.HEIGHT // scale), display_flags, vsync=1)
         self.clock = Clock()
         self._running = False
         self._fps = fps

@@ -1,263 +1,30 @@
-from abc import ABC, abstractmethod
-from enum import Enum
-from math import floor
-from typing import Optional, Union, Tuple, List, Iterator
+from typing import Tuple, Union
 
 import pygame
+from enum import Enum
 
+from engine.tools import Align, Vector
+from engine.gui.gui import Gui, Register, Widget, WidgetGroup, CoordinateArrayType, RectangleArrayType, WidgetCarrier
 from engine.events import EventHandler
-from engine.tools import Align
-from engine.tools import Singleton, Hashable
-from engine.tools import Vector
-
-RectangleArrayType = Union[Tuple, List]
-CoordinateArrayType = Union[Vector, Tuple, List]
 
 
-class WidgetSettingsIterator:
-
-    def __init__(self, *args, **kwargs):
-        self._index: int = 0
-        longest = max([*kwargs.values(), args], key=lambda value: len(value) if hasattr(value, "__iter__") else 0)
-        self._length = len(longest)
-
-        self._args = tuple(arg if self.iterable(arg) else (arg,) * self._length for arg in args)
-        self._kwargs = {name: kw if self.iterable(kw) else (kw,) * self._length for name, kw in kwargs.items()}
-
-    def __iter__(self) -> Iterator:
-        self._index = -1
-        return self
-
-    def __next__(self) -> Tuple[tuple, dict]:
-        self._index += 1
-        if self._index >= self._length:
-            raise StopIteration
-        args = tuple(value[self._index] for value in self._args)
-        kwargs = {key: value[self._index] for key, value in self._kwargs.items()}
-        return *args, kwargs
-
-    @staticmethod
-    def iterable(obj):
-        return hasattr(obj, "__iter__")
-
-
-class Gui(metaclass=Singleton):
-
-    pygame.font.init()
-    FONT_SIZES = (12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32)
-    FONT = {
-        False: {size: pygame.font.SysFont("monospace", size, bold=False) for size in FONT_SIZES},
-        True: {size: pygame.font.SysFont("monospace", size, bold=True) for size in FONT_SIZES},
-    }
-
-    def __init__(self, text_size: int = 20):
-        self._text_size = text_size
-        self._all_groups = set()
-        self._active_groups = set()
-        self._focused = set()
-
-    @property
-    def text_size(self):
-        return min(Gui.FONT_SIZES, key=lambda element: abs(element - self._text_size))
-
-    def add_group(self, *groups: "WidgetGroup"):
-        self._all_groups.update(groups)
-
-    def is_active(self, item: Union["Widget", "WidgetGroup"]):
-        if isinstance(item, WidgetGroup):
-            return item in self._active_groups
-        else:
-            return any(item in group for group in self._active_groups)
-
-    def is_focused(self, item: Union["Widget", "WidgetGroup"] = None):
-        if item is None:
-            return bool(self._focused)
-        elif isinstance(item, WidgetGroup):
-            return item in self._focused or any(widget in self._focused for widget in item)
-        else:
-            return item in self._focused
-
-    def activate_group(self, *groups: "WidgetGroup"):
-        self._active_groups |= set(groups)
-
-    def deactivate_group(self, *groups: "WidgetGroup"):
-        self._active_groups -= set(groups)
-
-    def focus_widget(self, item: Union["Widget", "WidgetGroup"], overwrite: bool = False):
-        if (not self._focused or overwrite) and self.is_active(item):
-            self._focused = {item}
-
-    def release_widget(self, item: Union["Widget", "WidgetGroup"], event_handler: EventHandler = None):
-        if item in self._focused:
-            self._focused.remove(item)
-            if event_handler is not None:
-                self.events(event_handler)
-
-    def events(self, event_handler: EventHandler):
-        active = self._focused if self._focused else self._active_groups
-        for group in sorted(active, key=lambda g: g.layer, reverse=True):
-            group.events(event_handler)
-
-    def render(self, display: pygame.Surface):
-        for group in sorted(self._active_groups, key=lambda g: g.layer, reverse=True):
-            group.render(display)
-
-
-class Widget(Hashable, pygame.Rect, ABC):
-
-    def __init__(
-            self,
-            group: Optional["WidgetGroup"],
-            dim: RectangleArrayType,
-            anchor: CoordinateArrayType = None,
-            align: str = Align.TL,
-            layer: int = 1,
-            **kwargs,
-    ):
-        pygame.Rect.__init__(self, dim)
-        Hashable.__init__(self)
-
-        self._layer = layer
-        self._base = Vector(0, 0)
-        self._anchor = Vector(0, 0)
-        self._align = None
-
-        self.snap(dim[:2], anchor, align)
-
-        self.hovered = False
-        self.entered = False
-        self.leaved = False
-        self.pressed = False
-        self.pressed_elsewhere = False
-        self.last_hovered = False
-
-        if group is not None:
-            self._gui = group.gui
-            group.add_widget(self)
-
-    def snap(self, pos: CoordinateArrayType = None, anchor: CoordinateArrayType = None, align: str = None):
-        if pos is not None:
-            self._base = Vector(pos)
-        if anchor is not None:
-            self._anchor = Vector(anchor)
-        if align is not None:
-            self._align = align
-
-        setattr(self, self._align, self._base + self._anchor)
-
-    def events(self, event_handler: EventHandler):
-        self.hovered = event_handler.mouse.focused(self)
-        self.entered = self.hovered and not self.last_hovered
-        self.leaved = self.last_hovered and not self.hovered
-        self.pressed = self.hovered and event_handler.mouse[0, "press"]
-        self.pressed_elsewhere = not self.hovered and event_handler.mouse[0, "press"]
-        self.last_hovered = self.hovered
-
-    @property
-    def layer(self) -> int:
-        return self._layer
-
-    @abstractmethod
-    def render(self, display: pygame.Surface) -> None:
-        pass
-
-
-class WidgetGroup(Hashable):
-
-    def __init__(
-            self,
-            gui: Gui,
-            active: bool = False,
-            layer: int = 1
-    ):
-        Hashable.__init__(self)
-        self._gui = gui
-        self._widgets = set()
-        self._layer = layer
-
-        gui.add_group(self)
-        if active:
-            gui.activate_group(self)
-
-    def __iter__(self) -> Widget:
-        yield from sorted(self._widgets, key=lambda widget: widget.layer, reverse=True)
-
-    @property
-    def layer(self):
-        return self._layer
-
-    @property
-    def gui(self):
-        return self._gui
-
-    def add_widget(self, widget: Widget):
-        self._widgets.add(widget)
-
-    def events(self, event_handler: EventHandler):
-        for widget in self:
-            widget.events(event_handler)
-
-    def render(self, display: pygame.Surface):
-        for widget in self:
-            widget.render(display)
-
-
-class WidgetCarrier(WidgetGroup, Widget):
-
-    def __init__(
-            self,
-            gui: Gui,
-            dim: RectangleArrayType,
-            color: Tuple,
-            active: bool = True,
-            layer: int = 1,
-    ):
-        Widget.__init__(self, None, dim)
-        WidgetGroup.__init__(self, gui, active=active, layer=layer)
-        self._color = color
-
-    def add_widget(self, widget: Widget):
-        widget.snap(anchor=self.topleft)
-        super().add_widget(widget)
-
-    def render(self, display: pygame.Surface):
-        pygame.draw.rect(display, self._color, self)
-        super().render(display)
-
-
-# === [ INHERITED WIDGET CLASSES ] =================================================================================== #
-
-
-class TextLabel(Widget):
-
+class TextWidget(Widget):
     def __init__(
             self,
             group: WidgetGroup,
             pos: CoordinateArrayType,
             color: Tuple,
-            text: str,
+            text: int = None,
             text_size: int = None,
             bold: bool = True,
-            anchor: CoordinateArrayType = None,
-            align: str = Align.TL,
-            layer: int = 1,
             **kwargs,
     ):
-        super().__init__(group, (*pos, 0, 0), anchor, align, layer, **kwargs)
-        self.align = align
+        super().__init__(group, (*pos, 0, 0), **kwargs)
+        self._text_register = Register(text)
         self.color = color
         self.text_size = self._gui.text_size if text_size is None else text_size
         self.bold = bold
-        self.text = None
-
-        if text is not None:
-            self.update_text(text)
-
-    def update_text(self, text: str):
-        self.text = text
-        width, height = self.font.size(text)
-        self.update(self.left, self.top, width, height)
-        self.snap()
+        self.update_dim(text)
 
     def render_text(
             self,
@@ -268,9 +35,9 @@ class TextLabel(Widget):
             align: str = None
     ):
         if align is None:
-            align = self.align
+            align = self._align
         if pos is None:
-            pos = getattr(self, self.align)
+            pos = getattr(self, self._align)
 
         surface = self.font.render(text, True, color)
         rect = surface.get_rect()
@@ -279,15 +46,40 @@ class TextLabel(Widget):
         display.blit(surface, rect)
         return rect.width, rect.height
 
-    def render(self, display: pygame.Surface):
-        self.render_text(display, self.text, self.color)
+    def update_dim(self, text: str):
+        width, height = self.font.size(text)
+        self.update(self.left, self.top, width, height)
+        self.snap()
 
     @property
     def font(self) -> pygame.font.Font:
         return self._gui.FONT[self.bold][self.text_size]
 
+    @property
+    def text(self): return str(self._text_register.value)
 
-class DataLabel(TextLabel):
+
+class TextLabel(TextWidget):
+
+    def __init__(
+            self,
+            group: WidgetGroup,
+            pos: CoordinateArrayType,
+            color: Tuple,
+            text: str = "",
+            register: str = None,
+            **kwargs,
+    ):
+        super().__init__(group, pos, color, text, **kwargs)
+        if register is not None:
+            self._text_register = self._gui.register(register, text)
+            self.update_dim(str(self._text_register))
+
+    def render(self, display: pygame.Surface):
+        self.render_text(display, str(self._text_register), self.color)
+
+
+class DataLabel(TextWidget):
 
     def __init__(
             self,
@@ -297,29 +89,30 @@ class DataLabel(TextLabel):
             text: str,
             value: float = 0.0,
             decimals: int = 2,
+            register: str = None,
             **kwargs,
     ):
         super().__init__(group, pos, color, f"{text}: ", **kwargs)
-        self._value = value
+        self._value_register = self._gui.register(register, value)
         self._decimals = decimals
 
     def render(self, display: pygame.Surface):
         w1, h1 = self.font.size(self.text)
-        w2, h2 = self.font.size(str(self._value))
+        w2, h2 = self.font.size(str(self._value_register))
         self.update(self.left, self.top, w1 + w2, max(h1, h2))
         self.snap()
 
         self.render_text(display, self.text, self.color[0], self.midleft + Vector(w1 / 2, 0), Align.C)
-        self.render_text(display, str(self._value), self.color[1], self.midleft + Vector(w1 + w2 / 2, 0), Align.C)
+        self.render_text(display, str(self._value_register), self.color[1], self.midleft + Vector(w1 + w2 / 2, 0), Align.C)
 
     @property
     def value(self) -> float:
-        return self._value
+        return self._value_register.value
 
     @value.setter
     def value(self, new_value: Union[float, int, str]):
         new_value = float(new_value) if isinstance(new_value, str) else new_value
-        self._value = round(float(new_value), self._decimals)
+        self._value_register.value = round(float(new_value), self._decimals)
 
 
 class Button(TextLabel):
@@ -338,7 +131,8 @@ class Slider(Widget):
             pos: CoordinateArrayType,
             color: Tuple,
             length: int,
-            initial_value=0.0,
+            initial_value: float = 0.0,
+            register: str = None,
             **kwargs,
     ):
         super().__init__(group, self.dim(pos, length), **kwargs)
@@ -346,9 +140,10 @@ class Slider(Widget):
         self.hold = False
         self.moved = False
 
+        self._value_register = self._gui.register(register, initial_value)
+
         self._rail: Optional[pygame.Rect] = None
         self._slider: Optional[pygame.Rect] = None
-        self._slide = 0
         self._color = color
         self._initial_value = initial_value
 
@@ -397,21 +192,19 @@ class HorizontalSlider(Slider):
         super().events(event_handler)
 
         slide = min(max(event_handler.mouse.pos.x - self.left, 0), self.width)
-        if slide != self._slide and self.hold:
-            self._slide = slide
+        if slide != self._value_register.value and self.hold:
+            self._value_register.value = slide
             self.moved = True
 
-        self._slider.left = self._slide + self.left - self.height / 2
+        self._slider.left = min(max(self._value_register.value, 0), self.width) + self.left - self.height / 2
 
     @property
     def value(self) -> float:
-        return self._slide / self.width
+        return self._value_register.value / self.width
 
     @value.setter
     def value(self, val: float):
-        slide = val * self.width
-        self._slide = min(max(slide, 0), self.width)
-        self._slider.left = self._slide + self.left - self.height / 2
+        self._value_register.value = min(max(val * self.width, 0), self.width)
 
 
 class VerticalSlider(Slider):
@@ -430,24 +223,21 @@ class VerticalSlider(Slider):
         super().events(event_handler)
 
         slide = min(max(event_handler.mouse.pos.y - self.top, 0), self.height)
-        if slide != self._slide and self.hold:
-            self._slide = slide
+        if slide != self._value_register.value and self.hold:
+            self._value_register.value = slide
             self.moved = True
-
-        self._slider.top = self._slide + self.top - self.width / 2
+        self._slider.top = min(max(self._value_register.value, 0), self.height) + self.top - self.width / 2
 
     @property
     def value(self) -> float:
-        return self._slide / self.height
+        return self._value_register.value / self.height
 
     @value.setter
     def value(self, val: float):
-        slide = val * self.height
-        self._slide = min(max(slide, 0), self.height)
-        self._slider.top = self._slide + self.top - self.width / 2
+        self._value_register.value = min(max(val * self.height, 0), self.height)
 
 
-class Switch(TextLabel):
+class Switch(TextWidget):
 
     def __init__(
             self,
@@ -456,16 +246,18 @@ class Switch(TextLabel):
             colors: Tuple,
             text: str,
             active: bool = False,
+            register: str = None,
             **kwargs,
     ):
         super().__init__(group, pos, colors, text, **kwargs)
-        self.active = active
+        self._switch_register = self._gui.register(register, active)
+
         self.last_active = active
         self.activated = False
         self.deactivated = False
 
-    def relay(self):
-        self.active = not self.active
+    def relay(self, active: bool = None):
+        self._switch_register.value = not self._switch_register.value if active is None else active
 
     def events(self, event_handler: EventHandler):
         super().events(event_handler)
@@ -473,6 +265,9 @@ class Switch(TextLabel):
         self.activated = self.active and not self.last_active
         self.deactivated = self.last_active and not self.active
         self.last_active = self.active
+
+    @property
+    def active(self) -> bool: return self._switch_register.value
 
 
 class FlipSwitch(Switch):
@@ -504,13 +299,14 @@ class TextInput(Switch):
             color: Tuple,
             text: str,
             value: str = None,
+            register: str = None,
             **kwargs,
     ):
-        super().__init__(group, pos, color, f"{text}: ", active=False, **kwargs)
+        super().__init__(group, pos, color, f"{text}: ", active=False, register=None, **kwargs)
 
-        self._value = "" if value is None else str(value)
-        self._visible_value = self._value
-        self._minimum_content_width = self.font.size(str(value))[0] + self.font.size(self.text)[0]
+        self._value_register = self._gui.register(register, value)
+        self._visible_value = self._value_register.value
+        self._minimum_content_width = self.font.size(str(self._visible_value))[0] + self.font.size(self.text)[0]
 
     def events(self, event_handler: EventHandler):
         super().events(event_handler)
@@ -528,20 +324,22 @@ class TextInput(Switch):
             elif key == "RETURN":
                 self.deactivate()
             elif key == "ESCAPE":
-                self._visible_value = self._value
+                self._visible_value = self._value_register.value
                 self.deactivate()
             else:
                 self.type(key)
+        else:
+            self._visible_value = self._value_register.value
 
     def activate(self):
         self._visible_value = ""
-        self.active = True
+        self._switch_register.value = True
         self._gui.focus_widget(self)
 
     def deactivate(self):
         if self._visible_value:
             self.value = self._visible_value
-        self.active = False
+        self._switch_register.value = False
         self._gui.release_widget(self)
 
     def type(self, char: str):
@@ -549,16 +347,16 @@ class TextInput(Switch):
 
     @property
     def value(self) -> Union[float, str]:
-        return self._visible_value if self.active else self._value
+        return self._visible_value if self.active else self._value_register.value
 
     @value.setter
     def value(self, new_value: Union[float, str]):
-        self._value = str(new_value)
-        self._visible_value = self._value
+        self._value_register.value = str(new_value)
+        self._visible_value = self._value_register.value
 
     def render(self, display: pygame.Surface):
         color = self.color[self.hovered or self.active]
-        value = self._visible_value if self.active else self.value
+        value = self._visible_value if self.active else self._value_register.value
         w1, h1 = self.font.size(self.text)
         w2, h2 = self.font.size(str(value))
         self.update(self.left, self.top, max(w1 + w2, self._minimum_content_width), max(h1, h2))
@@ -614,15 +412,15 @@ class NumericInput(TextInput):
 
     @property
     def value(self) -> float:
-        return float(self._value)
+        return float(self._value_register)
 
     @value.setter
     def value(self, new_value: Union[float, int, str]):
         if new_value == "":
-            self.value = "0.0"
+            self._value_register.value = 0.0
         if self.is_numeric(new_value):
-            self._value = self.format(new_value)
-        self._visible_value = self._value
+            self._value_register.value = self.format(new_value)
+        self._visible_value = self._value_register.value
 
 
 class Dropdown(Switch):
@@ -632,7 +430,7 @@ class Dropdown(Switch):
             group: WidgetGroup,
             pos: CoordinateArrayType,
             color: Tuple,
-            items,
+            items: set,
             text: str = None,
             initial: Enum = None,
             **kwargs,

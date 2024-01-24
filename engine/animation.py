@@ -56,3 +56,9 @@ class Scene:
     def frame(self, flipped: bool = False):
         key = self._keys[self._index]
         return self._sheet.get(key, flipped)
+
+
+class Animation:
+
+    def __init__(self, sprite_sheet, period: int = 150):
+        pass
